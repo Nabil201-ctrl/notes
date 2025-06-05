@@ -10,9 +10,16 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI)
+      .then(() => console.log('Connected to MongoDB'))
+      .catch((err) => console.error('MongoDB connection error:', err));
+  } catch(err){
+    console.error('Error connecting to MongoDB:', err);
+  }
+}
+connectDB();
 
 // Routes
 const notesRouter = require('./routes/notes');
